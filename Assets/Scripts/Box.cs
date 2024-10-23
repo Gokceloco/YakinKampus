@@ -4,16 +4,21 @@ using UnityEngine;
 
 public class Box : MonoBehaviour
 {
-    float speed = 2;
+    public float speed = 2;
+
+    private Rigidbody _rb;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        _rb = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        var direction = Vector3.zero;
+
         if (Input.GetKey(KeyCode.LeftShift))
         {
             speed = 5;
@@ -24,19 +29,21 @@ public class Box : MonoBehaviour
         }
         if (Input.GetKey(KeyCode.W))
         {
-            transform.position = transform.position + Vector3.forward * speed * Time.deltaTime;
+            direction += Vector3.forward;
         }
         if (Input.GetKey(KeyCode.S))
         {
-            transform.position = transform.position + Vector3.back * speed * Time.deltaTime;
+            direction += Vector3.back;
         }
         if (Input.GetKey(KeyCode.A))
         {
-            transform.position = transform.position + Vector3.left * speed * Time.deltaTime;
+            direction += Vector3.left;
         }
         if (Input.GetKey(KeyCode.D))
         {
-            transform.position = transform.position + Vector3.right * speed * Time.deltaTime;
-        }        
+            direction += Vector3.right;
+        }
+        _rb.velocity = direction.normalized * speed;
+        //transform.position += direction * speed * Time.deltaTime;
     }
 }
